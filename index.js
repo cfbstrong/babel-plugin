@@ -19,7 +19,8 @@ module.exports = ({ type: t }) => {
         const parentIsIf = t.isIfStatement(path.parentPath);
         const isDebug = path.node.value === "DEBUG";
         if (parentIsIf && isDebug) {
-          path.parentPath.remove(); //删除debug代码
+          //控制在生产环境下才能移除代码
+          if (process.env.NODE_ENV === "production") path.parentPath.remove(); //删除debug代码
         }
       },
     },
