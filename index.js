@@ -14,6 +14,14 @@ module.exports = ({ type: t }) => {
           path.replaceWith(stringNode);
         }
       },
+
+      StringLiterral(path) {
+        const parentIsIf = t.isIfStatement(path.parentPath);
+        const isDebug = path.node.value === "DEBUG";
+        if (parentIsIf && isDebug) {
+          path.parentPath.remove(); //删除debug代码
+        }
+      },
     },
   };
 };
